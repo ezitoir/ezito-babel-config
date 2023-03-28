@@ -1,0 +1,23 @@
+{
+  "name": "ezito-babel-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ezito-babel-config"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/register": "^7.21.0",
+    "ezito-babel": "github:ezitoir/ezito-babel",
+    "regenerator-runtime": "^0.13.11"
+  }
+}
