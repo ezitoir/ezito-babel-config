@@ -6,10 +6,55 @@ const importDeclaration = require('./lib/plugins/importDeclaration');
 const callFunction = require('./lib/plugins/callFunction');
 const exportDeclaration = require('./lib/plugins/exportDeclaration');
 const ignoreConfig = require('./lib/config/ignore');
- 
+const customPluginsConfig = require('./lib/config/custom-plugins');
+const customPresetsConfig = require('./lib/config/custom-presets');
+const importConfig =require('./lib/config/import');
+const exportsConfig =require('./lib/config/export');
+importConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
+    return {
+        functionName : 'asdsd',
+        newModulePath : 'dassd'
+    }
+})
 function initialConfig(option = {}){
     const optionFileName = option.fileName ;
-    
+    customPluginsConfig.add( ["@babel/plugin-syntax-jsx" , {}]);
+    customPluginsConfig.add(['ezito-babel/plugins/call-import-export', {
+        prepareCallFunction : callFunction().prepareCallFunction ,
+        prepareImportDeclaration : importDeclaration().prepareImportDeclaration,
+        prepareExportDeclaration : exportDeclaration().prepareExportDeclaration,
+        fileName : optionFileName,
+    }]);
+    customPluginsConfig.add(["ezito-babel/plugins/commonjs-export",{
+        prepareCommonJSExport(nodePath,fileName,{ addSource , addVariable }){
+            return {
+                '*' : ()=>{
+                },
+                'module.exports.*':()=>{  
+                },
+                'exports.*' : ()=>{
+                }
+            }
+        }
+    }]);
+    customPluginsConfig.add(["ezito-babel/plugins/insert-function",{ prepareInsertFunction(){ 
+        return function FFF(){}
+    }, fileName : '1'}],);
+    customPluginsConfig.add(["ezito-babel/plugins/auto-import" ,{
+        prepareAutoImport(nodePath , fileName){
+            fileName = fileName || optionFileName;
+        },
+        fileName : optionFileName
+    }]);
+    customPluginsConfig.add(["ezito-babel/plugins/add-source" , {
+        prepareAddSource(nodePath , fileName){
+            fileName = fileName || optionFileName ;
+        },
+    }]);
+    customPresetsConfig.add(['@babel/preset-env', { targets: { node: 'current' }}]);
+    customPresetsConfig.add(['@babel/preset-react', { targets: { node: 'current' }}]);
+
+
     return {
         ignore : [/(node_module)/ , function(filePath){
             var icNext = null;
@@ -20,44 +65,12 @@ function initialConfig(option = {}){
             }
             return false;
         }] ,
-        presets : [
-            ['@babel/preset-env', { targets: { node: 'current' }}] ,
-            ['@babel/preset-react', { targets: { node: 'current' }}]
+        presets : [ 
+            ...customPresetsConfig.getList()
         ] ,
-        plugins : [
-            ['ezito-babel/plugins/call-import-export', {
-                prepareCallFunction : callFunction().prepareCallFunction ,
-                prepareImportDeclaration : importDeclaration().prepareImportDeclaration,
-                prepareExportDeclaration : exportDeclaration().prepareExportDeclaration,
-                fileName : optionFileName,
-            }],
-            //["ezito/core/utils/babel/plugins/shift-exports-to-up" , { }],
-            ["ezito-babel/plugins/commonjs-export",{
-                prepareCommonJSExport(nodePath,fileName,{ addSource , addVariable }){
-                    return {
-                        '*' : ()=>{
-                        },
-                        'module.exports.*':()=>{  
-                        },
-                        'exports.*' : ()=>{
-                        }
-                    }
-                }
-            }],
-            ["ezito-babel/plugins/insert-function" , { }],
-            ["ezito-babel/plugins/auto-import" ,{
-                prepareAutoImport(nodePath , fileName){
-                    fileName = fileName || optionFileName;
-                    
-                }
-            }],
-            ["ezito-babel/plugins/add-source" , {
-                prepareAddSource(nodePath , fileName){
-                    fileName = fileName || optionFileName ;
-                },
-            }] , 
-            ["@babel/plugin-syntax-jsx" , {}] ,
-        ] ,
+        plugins : [  
+            ...customPluginsConfig.getList()
+        ],
     }
 }
 
@@ -78,8 +91,9 @@ function runDev(){
         console.log(babel.transformSync(fs.readFileSync('./i.js' ,'utf-8'),{ 
             presets : [...ctx.presets] ,
             plugins : [...ctx.plugins] , 
-        }).code) 
+        }).code);
     } 
 }
 runDev();
-
+module.exports.__esModule = true ;
+module.exports.runDev = runDev;
