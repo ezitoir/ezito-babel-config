@@ -2,23 +2,26 @@
 require('ezito-utils/server/dotenv')();
 const getHomeDir = require('ezito-utils/server/fs/home-dir');
 const getRootDir = require('ezito-utils/server/fs/get-root'); 
+const ezitoTypes = require('ezito-utils/public/validators/types'); 
 const importDeclaration = require('./lib/plugins/importDeclaration');
 const callFunction = require('./lib/plugins/callFunction');
 const exportDeclaration = require('./lib/plugins/exportDeclaration');
-const ignoreConfig = require('./lib/config/ignore');
-const customPluginsConfig = require('./lib/config/custom-plugins');
-const customPresetsConfig = require('./lib/config/custom-presets');
-const importConfig =require('./lib/config/import');
-const exportsConfig =require('./lib/config/export');
-importConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
-    return {
-        functionName : 'asdsd',
-        newModulePath : 'dassd'
-    }
-})
+const ignoreConfig = require('./config/ignore');
+const customPluginsConfig = require('./config/custom-plugins');
+const customPresetsConfig = require('./config/custom-presets');
+const exportsConfig =require('./config/export'); 
+const resolve = require('ezito-utils/server/fs/resolve');
+const importConfig =require('./config/import');
+const newCustomImportConfig = importConfig.createImportConfig(resolve('./pages'));
+newCustomImportConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
+    fns.addImport('isFunction','ezito-utils/public/is/function', true)
+});
+importConfig.patternList.add(newCustomImportConfig);
+
+
 function initialConfig(option = {}){
     const optionFileName = option.fileName ;
-    customPluginsConfig.add( ["@babel/plugin-syntax-jsx" , {}]);
+    customPluginsConfig.add(["@babel/plugin-syntax-jsx" , {}]);
     customPluginsConfig.add(['ezito-babel/plugins/call-import-export', {
         prepareCallFunction : callFunction().prepareCallFunction ,
         prepareImportDeclaration : importDeclaration().prepareImportDeclaration,
@@ -30,7 +33,7 @@ function initialConfig(option = {}){
             return {
                 '*' : ()=>{
                 },
-                'module.exports.*':()=>{  
+                'module.exports.*':()=>{
                 },
                 'exports.*' : ()=>{
                 }
@@ -38,7 +41,7 @@ function initialConfig(option = {}){
         }
     }]);
     customPluginsConfig.add(["ezito-babel/plugins/insert-function",{ prepareInsertFunction(){ 
-        return function FFF(){}
+        return ["function ali2(){}"]
     }, fileName : '1'}],);
     customPluginsConfig.add(["ezito-babel/plugins/auto-import" ,{
         prepareAutoImport(nodePath , fileName){
@@ -57,6 +60,7 @@ function initialConfig(option = {}){
 
     return {
         ignore : [/(node_module)/ , function(filePath){
+            console.log('dasd')
             var icNext = null;
             while (icNext = ignoreConfig.configCBList.next()) {
                 if(icNext(filePath)){
@@ -85,7 +89,7 @@ function runDev(){
             presets : [...ctx.presets] ,
             plugins : [...ctx.plugins] ,
             cache : false ,
-        });
+        }); 
         const fs = require('fs');
         var babel = require('@babel/core');
         console.log(babel.transformSync(fs.readFileSync('./i.js' ,'utf-8'),{ 
@@ -95,5 +99,7 @@ function runDev(){
     } 
 }
 runDev();
+require('./i');
+require('./pages')
 module.exports.__esModule = true ;
 module.exports.runDev = runDev;
