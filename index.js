@@ -97,9 +97,6 @@ function runDev(){
             plugins : [...ctx.plugins] , 
         }).code);
     } 
-}
-runDev();
-require('./i');
-require('./pages')
+} 
 module.exports.__esModule = true ;
 module.exports.runDev = runDev;
