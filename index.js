@@ -1,24 +1,25 @@
 'use strict'; 
 require('ezito-utils/server/dotenv')();
+const babelTypes = require('@babel/types');
 const getHomeDir = require('ezito-utils/server/fs/home-dir');
 const getRootDir = require('ezito-utils/server/fs/get-root'); 
 const ezitoTypes = require('ezito-utils/public/validators/types'); 
-const importDeclaration = require('./lib/plugins/importDeclaration');
-const callFunction = require('./lib/plugins/callFunction');
-const exportDeclaration = require('./lib/plugins/exportDeclaration');
+const importDeclaration = require('./core/plugins/importDeclaration');
+const callFunction = require('./core/plugins/callFunction');
+const exportDeclaration = require('./core/plugins/exportDeclaration');
 const ignoreConfig = require('./config/ignore');
 const customPluginsConfig = require('./config/custom-plugins');
 const customPresetsConfig = require('./config/custom-presets');
 const exportsConfig =require('./config/export'); 
 const resolve = require('ezito-utils/server/fs/resolve');
-const importConfig =require('./config/import');
-const newCustomImportConfig = importConfig.createImportConfig(resolve('./pages'));
-newCustomImportConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
-    fns.addImport('isFunction','ezito-utils/public/is/function', true)
+const importConfig =require('./config/import'); 
+const coreConfig = require('./core/config');
+
+importConfig.import.add(function(){
+    return {
+        functionName  : '_ddd'
+    }
 });
-importConfig.patternList.add(newCustomImportConfig);
-
-
 function initialConfig(option = {}){
     const optionFileName = option.fileName ;
     customPluginsConfig.add(["@babel/plugin-syntax-jsx" , {}]);
@@ -33,15 +34,26 @@ function initialConfig(option = {}){
             return {
                 '*' : ()=>{
                 },
-                'module.exports.*':()=>{
+                'module.exports.*': (ddd ,f,ri) => { 
+                    return {
+                        right : babelTypes.callExpression(
+                            babelTypes.identifier('hey') ,
+                            [ri] 
+                        ),
+                        value : 'exports.d',
+                        spliter : 3
+                    }
                 },
                 'exports.*' : ()=>{
+                },
+                'exports' : ()=>{
+                    
                 }
             }
         }
     }]);
     customPluginsConfig.add(["ezito-babel/plugins/insert-function",{ prepareInsertFunction(){ 
-        return ["function ali2(){}"]
+        return []
     }, fileName : '1'}],);
     customPluginsConfig.add(["ezito-babel/plugins/auto-import" ,{
         prepareAutoImport(nodePath , fileName){
@@ -97,6 +109,9 @@ function runDev(){
             plugins : [...ctx.plugins] , 
         }).code);
     } 
-} 
+}
+runDev();
+require('./i');
+require('./pages')
 module.exports.__esModule = true ;
 module.exports.runDev = runDev;

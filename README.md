@@ -29,7 +29,7 @@ importConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
 
 
 // example 3
-const importConfig =require('./config/import');
+const importConfig =require('ezito-babel-config/config/import');
 const newCustomImportConfig = importConfig.createImportConfig(resolve('./pages'));
 newCustomImportConfig.importDefault.add(function(nodePath,importPath,fileName,fns){
     fns.addImport('withRouter','example/withRouter', true);
@@ -41,5 +41,5 @@ newCustomImportConfig.importDefault.add(function(nodePath,importPath,fileName,fn
 importConfig.patternList.add(newCustomImportConfig);
 
 // example 4
-const coreConfig = require('./core/config');
+const coreConfig = require('ezito-babel-config/core/config');
 coreConfig.importFucntions.clearAll()
