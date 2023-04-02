@@ -5,8 +5,8 @@ const makeError = require('ezito-utils/public/make-error');
 const cloneObject = require('ezito-utils/public/object/clone');
 const $$typeC = Symbol.for('custom-import-config');
 const $$typeA = Symbol.for('all');
-const settingImportConfig = {
-    import : {
+const settingCallFunctionConfig = {
+    require : {
         add : function ( cb){
             if(!isFunction(cb)) throw makeError(
                 '[PARAM-TYPE-ERROR]' ,
@@ -31,7 +31,7 @@ const settingImportConfig = {
             }
         }
     },
-    default : {
+    import : {
         add : function ( cb){
             if(!isFunction(cb)) throw makeError(
                 '[PARAM-TYPE-ERROR]' ,
@@ -55,41 +55,16 @@ const settingImportConfig = {
                 return this.list[this.counter];
             }
         }
-    }, 
-    withCards : {
-        add : function ( cb){
-            if(!isFunction(cb)) throw makeError(
-                '[PARAM-TYPE-ERROR]' ,
-                'cb param must be functin type',
-                1
-            );
-            this.configCBList.add(cb);
-        },
-        configCBList : {
-            add : function(cb){
-                this.list.push(cb);
-            },
-            list : [] ,
-            counter : -1,
-            next : function(){
-                this.counter ++;
-                if(this.counter == this.list.length){
-                    this.counter = -1;
-                    return false;
-                }
-                return this.list[this.counter];
-            }
-        }
-    }, 
+    },
     $$type : $$typeA
 }
-const importConfig = {
-    ...cloneObject(settingImportConfig),
+const callFunctionConfig = {
+    ...cloneObject(settingCallFunctionConfig),
     createImportConfig (patternPath){
-        var newCustomImportConfin = cloneObject(settingImportConfig);
-        newCustomImportConfin.currentPath = patternPath;
-        newCustomImportConfin.$$type = $$typeC;
-        return newCustomImportConfin;
+        var newCustomCustomConfin = cloneObject(settingCallFunctionConfig);
+        newCustomCustomConfin.currentPath = patternPath;
+        newCustomCustomConfin.$$type = $$typeC;
+        return newCustomCustomConfin;
     },
     currentPath : '*' ,
     patternList : {
@@ -127,4 +102,4 @@ const importConfig = {
         list : [],
     },
 }; 
-module.exports = importConfig;
+module.exports = callFunctionConfig;

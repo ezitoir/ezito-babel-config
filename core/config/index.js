@@ -45,8 +45,14 @@ var _interopRequireWildcard = function _interopRequireWildcard(obj) {
     return newObj;
 };
 
-
+_interopRequireDefault.name = '_interopRequireDefault';
+_getRequireWildcardCache.name = '_getRequireWildcardCache';
+_interopRequireWildcard.name = '_interopRequireWildcard';
 module.exports = {
+  enable : true ,
+  _interopRequireDefault,
+  _interopRequireWildcard,
+  _getRequireWildcardCache,
   importFucntions : {
       withCardsImport : {
         fnNames : ['_interopRequireWildcard' , 'require'],
