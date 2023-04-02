@@ -10,7 +10,7 @@
     "type": "git",
     "url": "ezito-babel-config"
   },
-  "author": "",
+  "author": "Muhammad Ali Aghajanpour , from IR",
   "license": "ISC",
   "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.18.6",
