@@ -1,11 +1,12 @@
 'use strict'; 
 require('ezito-utils/server/dotenv')();
 const babelTypes = require('@babel/types'); 
-const babelTemplate = require('@babel/template')
+const babelTemplate = require('@babel/template');
 const { createArrayTemplate } = require('ezito-babel/utils/function-name-creator');
 const importDeclaration = require('./core/plugins/importDeclaration');
 const callFunctionExpresion = require('./core/plugins/callFunction');
 const exportDeclaration = require('./core/plugins/exportDeclaration');
+const commonJSExport = require('./core/plugins/commonJSExport')
 const ignoreConfig = require('./config/ignore');
 const customPluginsConfig = require('./config/custom-plugins');
 const customPresetsConfig = require('./config/custom-presets');
@@ -47,13 +48,14 @@ if(coreConfig.enable){
         }));
         this.skip();
     });
-    exportsConfig.default.add(function Default(f,fns){ 
+
+
+
+    exportsConfig.default.add(function Default( value ,fns){ 
         this.replaceWith(babelTemplate.default('module.exports.default = VALUE;')({
-            VALUE : babelTypes.callExpression(
-                babelTypes.identifier('_interopRequireDefault'),
-                [f]
-            )
-        }))
+            VALUE : value
+        }));
+        this.skip();
     });
     exportsConfig.export.add(function Export(f ,fns){  
         this.replaceWith(
@@ -95,6 +97,8 @@ if(coreConfig.enable){
         this.remove()
     });
 
+
+
     callFunctionConfig.import.add(function importCall(importPath, args , fns){
         fns.addFunction(coreConfig._getRequireWildcardCache);
         fns.addFunction(coreConfig._interopRequireWildcard);
@@ -111,34 +115,10 @@ function initialConfig(option = {}){
     customPluginsConfig.add(['ezito-babel/plugins/all', {
         prepareCallFunction : callFunctionExpresion().prepareCallFunction ,
         prepareImportDeclaration : importDeclaration().prepareImportDeclaration,
-        prepareExportDeclaration : exportDeclaration().prepareExportDeclaration, 
+        prepareExportDeclaration : exportDeclaration().prepareExportDeclaration,
+        prepareCommonJSExport : commonJSExport().prepareCommonJSExport,
         fileName : optionFileName,
-    }]);
-    customPluginsConfig.add(["ezito-babel/plugins/commonjs-export", {
-        prepareCommonJSExport(nodePath,fileName, fns){
-            fns.addFunction(function hey( name ){ return {}} ,{insert : 'unshiftContainer'})
-            return {
-                '*' : ()=>{
-                },
-                'module.exports.*': (ddd ,f,ri) => { 
-                    if(ddd.indexOf('default') > -1)
-                    return {
-                        right : babelTypes.callExpression(
-                            babelTypes.identifier('hey') ,
-                            [ri] 
-                        ),
-                        spliter : 1 
-                    }
-                },
-                'exports.*' : ()=>{
-                },
-                'exports' : ()=>{
-
-                }
-            }
-        },
-        fileName : optionFileName,
-    }]);
+    }]); 
     customPluginsConfig.add(["ezito-babel/plugins/insert-function",{ prepareInsertFunction(){ 
         return [function hey( name ){ return {}} ]
     }, fileName : optionFileName}],);
@@ -158,7 +138,8 @@ function initialConfig(option = {}){
 
 
     return {
-        ignore : [/(node_module)/ , function(filePath){ 
+        ignore : [/(node_module)/ , function(filePath){
+         
             var icNext = null;
             while (icNext = ignoreConfig.configCBList.next()) {
                 if(icNext(filePath)){
@@ -187,8 +168,15 @@ function runDev(){
             presets : [...ctx.presets] ,
             plugins : [...ctx.plugins] ,
             cache : false ,
-        });  
+        });   
     } 
-} 
+}
+function parseTransform (code ,option) {
+    return require('@babel/core').transformSync(code , option);
+}
+
+runDev(); 
+
 module.exports.__esModule = true ;
 module.exports.runDev = runDev;
+module.exports.parseTransform = parseTransform;
