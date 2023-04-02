@@ -174,12 +174,7 @@ function runDev(){
             presets : [...ctx.presets] ,
             plugins : [...ctx.plugins] ,
             cache : false ,
-        });   
-
-        console.log(require('@babel/core').transformFileSync('./pages/index.js',{
-            presets : [...ctx.presets] ,
-            plugins : [...ctx.plugins] ,
-        }))
+        }); 
     } 
 }  
 module.exports.__esModule = true ;
