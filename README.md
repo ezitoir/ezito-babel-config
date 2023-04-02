@@ -4,10 +4,10 @@
 const ezitoBabelConfig = requrie('ezito-babel-config');
 const ignoreConfig = require('ezito-babel-config/config/ignore');
 const customPluginsConfig = require('ezito-babel-config/config/custom-plugins');
-const customPresetsConfig = require('./config/custom-presets');
+const customPresetsConfig = require('ezito-babel-config/config/custom-presets');
 const exportsConfig =require('ezito-babel-config/config/export');  
 const importConfig =require('ezito-babel-config/config/import'); 
-const callFunctionConfig =require('./config/call-function'); 
+const callFunctionConfig =require('ezito-babel-config/config/call-function'); 
 const coreConfig = require('ezito-babel-config/core/config');
 // example 1
 // auto default parse babel
