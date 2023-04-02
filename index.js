@@ -1,12 +1,12 @@
-'use strict'; 
+'use strict';  
 require('ezito-utils/server/dotenv')();
 const babelTypes = require('@babel/types'); 
 const babelTemplate = require('@babel/template');
-const { createArrayTemplate } = require('ezito-babel/utils/function-name-creator');
-const importDeclaration = require('./core/plugins/importDeclaration');
+const { createArrayTemplate } = require('ezito-babel/utils/function-name-creator'); 
+const importDeclaration = require('./core/plugins/importDeclaration'); 
 const callFunctionExpresion = require('./core/plugins/callFunction');
 const exportDeclaration = require('./core/plugins/exportDeclaration');
-const commonJSExport = require('./core/plugins/commonJSExport')
+const commonJSExport = require('./core/plugins/commonJSExport');
 const ignoreConfig = require('./config/ignore');
 const customPluginsConfig = require('./config/custom-plugins');
 const customPresetsConfig = require('./config/custom-presets');
@@ -15,7 +15,7 @@ const importConfig =require('./config/import');
 const callFunctionConfig =require('./config/call-function'); 
 const coreConfig = require('./core/config');
 const path = require('path');
- 
+
 if(coreConfig.enable){
     importConfig.default.add(function Default(modulePath , cardsList ,fns){
         fns.addFunction(coreConfig._interopRequireDefault);
@@ -48,7 +48,6 @@ if(coreConfig.enable){
         }));
         this.skip();
     });
-
 
 
     exportsConfig.default.add(function Default( value ,fns){ 
@@ -97,14 +96,21 @@ if(coreConfig.enable){
         this.remove()
     });
 
-
-
     callFunctionConfig.import.add(function importCall(importPath, args , fns){
         fns.addFunction(coreConfig._getRequireWildcardCache);
         fns.addFunction(coreConfig._interopRequireWildcard);
         this.replaceWith(babelTemplate.default('Promise.resolve().then(() => _interopRequireWildcard(require(MODULE_PATH)))')({
             MODULE_PATH : babelTypes.stringLiteral(importPath)
-        }))
+        }));
+        this.skip();
+    });
+    callFunctionConfig.require.add(function importCall(importPath, args , fns){
+        fns.addFunction(coreConfig._getRequireWildcardCache);
+        fns.addFunction(coreConfig._interopRequireDefault);
+        this.replaceWith(babelTemplate.default('_getRequireWildcardCache(require(MODULE_PATH)))')({
+            MODULE_PATH : babelTypes.stringLiteral(importPath)
+        }));
+        this.skip();
     });
 }
  
@@ -169,14 +175,12 @@ function runDev(){
             plugins : [...ctx.plugins] ,
             cache : false ,
         });   
+
+        console.log(require('@babel/core').transformFileSync('./pages/index.js',{
+            presets : [...ctx.presets] ,
+            plugins : [...ctx.plugins] ,
+        }))
     } 
-}
-function parseTransform (code ,option) {
-    return require('@babel/core').transformSync(code , option);
-}
-
-runDev(); 
-
+}  
 module.exports.__esModule = true ;
-module.exports.runDev = runDev;
-module.exports.parseTransform = parseTransform;
+module.exports.runDev = runDev; 
