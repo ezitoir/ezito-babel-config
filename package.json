@@ -2,15 +2,20 @@
   "name": "ezito-babel-config",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.js", 
+  "author": "Muhammad Ali Aghajanpour , from IR", 
   "repository": {
     "type": "git",
     "url": "ezito-babel-config"
   },
-  "author": "Muhammad Ali Aghajanpour , from IR",
+   "scripts": {
+    "postinstall":"",
+    "build": "",
+    "preinstall" : "",
+    "install" : "",
+    "prepare" :"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "license": "ISC", 
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.18.6",
