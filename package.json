@@ -33,10 +33,7 @@
     "@babel/register": "^7.21.0",
     "ezito-utils": "^1.0.0"
   }, 
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ezitoir/ezito-babel-config.git"
-  },
+  "repository": "ezitoir/ezito-babel-config",
   "bugs": {
     "url": "https://github.com/ezitoir/ezito-babel-config/issues"
   },
