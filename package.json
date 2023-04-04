@@ -1,8 +1,26 @@
 {
   "name": "ezito-babel-config",
   "version": "1.0.0",
-  "description": "",
+  "description": "write faster custom babel parser",
   "main": "index.js",
+  "author": "Muhammad Ali Aghajanpour",
+  "license": "ISC",
+  "keyword" : [
+    "babel" ,
+    "export",
+    "import" ,
+    "commonJs export" ,
+    "babel addVaribale",
+    "babel addFunction",
+    "esModule" ,
+    "plugins"
+  ],
+  "files" : [
+    "README.md",
+    "index.js",
+    "config/",
+    "core/"
+  ],
   "scripts": {
     "test": "npm install --only=dev"
   },
@@ -19,8 +37,6 @@
     "type": "git",
     "url": "git+https://github.com/ezitoir/ezito-babel-config.git"
   },
-  "author": "Muhammad Ali Aghajanpour",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ezitoir/ezito-babel-config/issues"
   },
