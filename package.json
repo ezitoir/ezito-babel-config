@@ -22,12 +22,11 @@
     "core/"
   ],
   "scripts": {
-    "test": "npm --version"
+    "test": "npm install --only=dev"
   },
   "dependencies" : {
-    "ezito-utils": "^1.0.0"
-  },
-  "devDependencies": { 
+    "ezito-utils": "^1.0.0",
+    "ezito-babel-plugins"  :"^1.0.0",
     "@babel/plugin-syntax-jsx": "^7.18.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
