@@ -22,7 +22,7 @@
     "core/"
   ],
   "scripts": {
-    "test": "npm install --only=dev"
+    "test": "npm --version"
   },
   "dependencies" : {
     "ezito-utils": "^1.0.0"
