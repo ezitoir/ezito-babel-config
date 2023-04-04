@@ -106,7 +106,7 @@ if(coreConfig.enable){
     });
     callFunctionConfig.require.add(function importCall(importPath, args , fns){
         fns.addFunction(coreConfig._getRequireWildcardCache);
-        fns.addFunction(coreConfig._interopRequireDefault);
+        fns.addFunction(coreConfig._interopRequireWildcard);
         this.replaceWith(babelTemplate.default('_getRequireWildcardCache(require(MODULE_PATH)))')({
             MODULE_PATH : babelTypes.stringLiteral(importPath)
         }));
@@ -174,7 +174,7 @@ function runDev(){
             presets : [...ctx.presets] ,
             plugins : [...ctx.plugins] ,
             cache : false ,
-        }); 
+        });    
     } 
 }  
 module.exports.__esModule = true ;

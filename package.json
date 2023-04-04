@@ -2,27 +2,30 @@
   "name": "ezito-babel-config",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js", 
-  "author": "Muhammad Ali Aghajanpour , from IR", 
-  "repository": {
-    "type": "git",
-    "url": "ezito-babel-config"
+  "main": "index.js",
+  "scripts": {
+    "test": "npm install --only=dev"
   },
-   "scripts": {
-    "postinstall":"",
-    "build": "",
-    "preinstall" : "",
-    "install" : "",
-    "prepare" :"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies" : { 
   },
-  "license": "ISC", 
-  "dependencies": {
+  "devDependencies": {
     "@babel/plugin-syntax-jsx": "^7.18.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/register": "^7.21.0",
-    "ezito-babel": "github:ezitoir/ezito-babel",
-    "ezito-utils": "github:ezitoir/ezito-utils"
+    "ezito-utils": "^1.0.0"
+  }, 
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezitoir/ezito-babel-config.git"
+  },
+  "author": "Muhammad Ali Aghajanpour",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ezitoir/ezito-babel-config/issues"
+  },
+  "homepage": "https://github.com/ezitoir/ezito-babel-config#readme",
+  "engines": {
+    "node": ">=12"
   }
 }

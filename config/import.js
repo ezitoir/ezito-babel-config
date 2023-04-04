@@ -1,6 +1,6 @@
-'use strict';
-const isFunction = require('ezito-utils/public/is/function');
-const ezitoTypes = require('ezito-utils/public/validators/types');
+'use strict'; 
+const isFunction = require('ezito-utils/public/is/function'); 
+const ezitoTypes = require('ezito-utils/public/validators/types'); 
 const makeError = require('ezito-utils/public/make-error');
 const cloneObject = require('ezito-utils/public/object/clone');
 const $$typeC = Symbol.for('custom-import-config');
