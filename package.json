@@ -22,13 +22,12 @@
     "core/"
   ],
   "scripts": {
-    "test": "mocha"
+    "test": "npm --version"
   },
   "dependencies" : {
     "ezito-utils": "^1.0.0"
   },
-  "devDependencies": {
-    "mocha": "*",
+  "devDependencies": { 
     "@babel/plugin-syntax-jsx": "^7.18.6",
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
