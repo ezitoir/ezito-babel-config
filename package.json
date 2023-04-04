@@ -42,6 +42,6 @@
   },
   "homepage": "https://github.com/ezitoir/ezito-babel-config#readme",
   "engines": {
-    "node": ">=12"
+    "node": ">= 0.10.0"
   }
 }
