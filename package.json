@@ -1,6 +1,6 @@
 {
   "name": "ezito-babel-config",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "write faster custom babel parser",
   "main": "index.js",
   "author": "Muhammad Ali Aghajanpour",
@@ -22,6 +22,7 @@
     "core/"
   ],
   "scripts": {
+    "prepare" : "npm run test",
     "test": "npm install --only=dev"
   },
   "dependencies" : {
@@ -41,6 +42,6 @@
   },
   "homepage": "https://github.com/ezitoir/ezito-babel-config#readme",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 10.0.0"
   }
 }
