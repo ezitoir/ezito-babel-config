@@ -1,7 +1,7 @@
 'use strict';
-const getScopeType = require('ezito-babel/utils/get-scope-type');
+const getScopeType = require('ezito-babel-plugins/utils/get-scope-type');
 const babelTypes = require('@babel/types');
-const createCallExpression = require('ezito-babel/utils/create-call-expression');
+const createCallExpression = require('ezito-babel-plugins/utils/create-call-expression');
 const callFunctionConfig = require('../../config/call-function');
 
 function init(){

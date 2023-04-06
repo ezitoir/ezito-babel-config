@@ -1,6 +1,6 @@
 {
   "name": "ezito-babel-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "write faster custom babel parser",
   "main": "index.js",
   "author": "Muhammad Ali Aghajanpour",

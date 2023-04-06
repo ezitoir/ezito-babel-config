@@ -1,4 +1,11 @@
+# ezito-babel-plugins
 
+## Installation
+
+    npm install https://github.com/ezitoir/ezito-babel-config.git
+    npm install ezito-babel-config
+    
+## Usage
 
 ```javascript
 const ezitoBabelConfig = requrie('ezito-babel-config');
